@@ -9,6 +9,7 @@
 // Client side apllication implementaion
 
 int main() {
+    std::string packetToSend[1024];
     
     // Create the socket
     int cSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -30,6 +31,19 @@ int main() {
         return -1;
     }
     std::cout << "Server connection established." << std::endl;
+
+    // Build the packet
+
+    // Send the packet
+    if (send(cSocket, packetToSend, sizeof(packetToSend), 0) < 0) {
+        std::cerr << "ERROR: Failed to send packet." << std::endl;
+    }
+    else {
+        std::cout << "Packet sent successfully." << std::endl;
+    }
+
+    close(cSocket);
+    return 0;
 
 }
 
