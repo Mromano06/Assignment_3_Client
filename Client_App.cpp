@@ -1,3 +1,4 @@
+#include "Reciever.h"
 #include <iostream>
 #include <string>
 #include <stdlib.h>
@@ -9,8 +10,9 @@
 // Client side apllication implementaion
 
 int main() {
+    Reciever parser;
+
     std::string packetToSend[1024];
-    
     // Create the socket
     int cSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (cSocket < 0) {
@@ -34,12 +36,28 @@ int main() {
 
     // Build the packet
 
+
     // Send the packet
     if (send(cSocket, packetToSend, sizeof(packetToSend), 0) < 0) {
         std::cerr << "ERROR: Failed to send packet." << std::endl;
     }
     else {
         std::cout << "Packet sent successfully." << std::endl;
+    }
+
+    // Reciece a response
+    char buffer[1024];
+    int bytes = recv(cSocket, buffer, sizeof(buffer) -1, 0);
+    if (bytes > 0) {
+        buffer[bytes] = '\0';
+        std::string result = parser.checkCommands(buffer);
+        std::cout << result;
+    }
+    else if (bytes == 0) {
+        std::cout << "Connection to server terminated." << std::endl;
+    }
+    else {
+        std::cerr << "ERROR: Failed to recieve packet." << std::endl;
     }
 
     close(cSocket);
