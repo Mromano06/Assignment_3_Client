@@ -1,4 +1,4 @@
-#include "Reciever.h"
+#include "Receiver.h"
 #include <iostream>
 #include <string>
 #include <stdlib.h>
@@ -10,7 +10,7 @@
 // Client side apllication implementaion
 
 int main() {
-    Reciever parser;
+    Receiver parser;
 
     std::string packetToSend[1024];
     // Create the socket

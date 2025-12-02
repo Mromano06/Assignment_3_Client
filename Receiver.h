@@ -4,7 +4,7 @@
 // Matthew Romano - Assignment 3 - Network Theory
 // Reciever class declaration
 
-class Reciever {
+class Receiver {
     public:
-        std::string checkCommands(char* buffer);     
+        std::string checkCommands(const char* buffer);     
 };
