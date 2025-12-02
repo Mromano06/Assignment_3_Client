@@ -24,20 +24,20 @@ std::string Receiver::checkCommands(const char* buffer) {
 
     for (const auto& part : parts) {
         if (part == "POST_OK") {
-            out << "Post succeeded." << std::endl;
+            out << "Post succeeded.\n";
         }
         else if (part == "POST_ERROR") {
-            out << "SERVER ERROR: Command failed." << std::endl;
+            out << "SERVER ERROR: Command failed.";
             return out.str(); // Return error message asap
         }
         else if (part == "MESSAGES") {
-            out << "Post succeeded:" << std::endl;
+            out << "Post succeeded:\n";
         }
         else if (part == "DISCONNECT") {
-            out << "Dissconnet recieved. Connection closing..." << std::endl;
+            out << "Dissconnet recieved. Connection closing...\n";
         }
-        else {
-            out << " - " << part << std::endl;
+        else if (!part.empty()) {
+            out << " - " << part << "\n";
         }
     }
 

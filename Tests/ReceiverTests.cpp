@@ -10,3 +10,4 @@ TEST(StringTest, ErrorExitsEarly) {
     std::string expected = "SERVER ERROR: Command failed.";
     EXPECT_EQ(parser.checkCommands(recievedMessage), expected);
 }
+
