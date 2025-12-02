@@ -6,6 +6,18 @@
 // Matthew Romano - Assignment 3 - Network Theory
 // Receiver class implementation
 
+// Trims off the braces of the message
+static std::string trimBraces(const std::string& s) {
+    std::string result = s;
+    if (!result.empty() && result.front() == '{') {
+        result.erase(result.begin());
+    }
+    if (!result.empty() && result.back() == '}') {
+        result.pop_back();
+    }
+    return result;
+}
+
 std::string Receiver::checkCommands(const char* buffer) {
     std::string response(buffer); // convert to a string
 
@@ -22,22 +34,24 @@ std::string Receiver::checkCommands(const char* buffer) {
 
     std::ostringstream out;
 
-    for (const auto& part : parts) {
+    for (const auto& rawPart : parts) {
+        std::string part = trimBraces(rawPart);
+        
         if (part == "POST_OK") {
-            out << "Post succeeded.\n";
+            out << "Post succeeded:";
         }
         else if (part == "POST_ERROR") {
             out << "SERVER ERROR: Command failed.";
             return out.str(); // Return error message asap
         }
         else if (part == "MESSAGES") {
-            out << "Post succeeded:\n";
+            out << "";
         }
         else if (part == "DISCONNECT") {
-            out << "Dissconnet recieved. Connection closing...\n";
+            out << "Dissconnet recieved. Connection closing...";
         }
         else if (!part.empty()) {
-            out << " - " << part << "\n";
+            out << "\n- " << part;
         }
     }
 

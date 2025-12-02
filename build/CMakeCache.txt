@@ -299,15 +299,6 @@ MyProjectTests_IS_TOP_LEVEL:STATIC=ON
 MyProjectTests_SOURCE_DIR:STATIC=/home/mattr/repos/Assignment_3_Client
 
 //Value Computed by CMake
-Project_BINARY_DIR:STATIC=/home/mattr/repos/Assignment_3_Client/build
-
-//Value Computed by CMake
-Project_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-Project_SOURCE_DIR:STATIC=/home/mattr/repos/Assignment_3_Client
-
-//Value Computed by CMake
 gmock_BINARY_DIR:STATIC=/home/mattr/repos/Assignment_3_Client/build/googletest/googlemock
 
 //Value Computed by CMake
