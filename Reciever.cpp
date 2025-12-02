@@ -28,7 +28,7 @@ std::string Reciever::checkCommands(char* buffer) {
         }
         else if (part == "POST_ERROR") {
             out << "SERVER ERROR: Command failed." << std::endl;
-            return; // Return error message asap
+            return out.str(); // Return error message asap
         }
         else if (part == "MESSAGES") {
             out << "Post succeeded:" << std::endl;
