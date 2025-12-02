@@ -7,7 +7,7 @@ CXXFLAGS = -std=c++17 -Wall
 TARGET = client_app
 
 # Source file(s)
-SRC = Client_App.cpp Menu.cpp
+SRC = Client_App.cpp Menu.cpp Reciever.cpp
 
 # Build target
 $(TARGET): $(SRC)
