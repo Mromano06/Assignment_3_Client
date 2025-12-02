@@ -1,12 +1,12 @@
-#include "Reciever.h"
+#include "Receiver.h"
 #include <iostream>
 #include <sstream>
 #include <vector>
 
 // Matthew Romano - Assignment 3 - Network Theory
-// Reciever class implementation
+// Receiver class implementation
 
-std::string Reciever::checkCommands(char* buffer) {
+std::string Receiver::checkCommands(const char* buffer) {
     std::string response(buffer); // convert to a string
 
     std::vector<std::string> parts;
