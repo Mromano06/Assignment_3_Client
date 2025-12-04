@@ -23,16 +23,16 @@ std::string Menu::run(){
             // handle posts
             handleChoice(choice, accumulatedMessage, firstPost);
             // append end marker
-            accumulatedMessage += "}${";
+            accumulatedMessage += "}}&{{";
             return accumulatedMessage;
 
             case 'b':
             case 'B': 
-            return "GET_BOARD}${";
+            return "GET_BOARD}}&{{";
 
             case 'q':
             case 'Q':
-            return "QUIT}${";
+            return "QUIT}}&{{";
 
             default:
             std::cout << "Invalid option." << std::endl;
@@ -94,7 +94,7 @@ void Menu::handleChoice(char choice, std::string& accumulatedMessage, bool& firs
             accumulatedMessage = command + "}+{" + post;
             firstPost = false;
         } else{
-            accumulatedMessage += "}&{" + post;
+            accumulatedMessage += "}#{" + post;
         }
 
         // Add another post?
