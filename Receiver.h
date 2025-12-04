@@ -5,6 +5,9 @@
 // Reciever class declaration
 
 class Receiver {
-    public:
+    public:   
+        int terminationFlag = 0;        
+        int getTermFlag();
+        void setTermFlag(int terminationFlag);
         std::string checkCommands(const char* buffer);     
 };
