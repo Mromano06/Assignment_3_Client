@@ -1,4 +1,5 @@
 #include "Receiver.h"
+#include "Menu.h"
 #include <iostream>
 #include <string>
 #include <stdlib.h>
@@ -12,7 +13,7 @@
 int main() {
     Receiver parser;
 
-    std::string packetToSend[1024];
+
     // Create the socket
     int cSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (cSocket < 0) {
@@ -23,8 +24,8 @@ int main() {
     // Define the servers address
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(2222); // TODO: Decide on port number used
-    server_addr.sin_addr.s_addr = inet_addr("192.168.0.0"); // TODO: Get the ip address of the server
+    server_addr.sin_port = htons(26500); // TODO: Decide on port number used
+    server_addr.sin_addr.s_addr = inet_addr("172.16.5.12"); // TODO: Get the ip address of the server
 
     // Connect to the server
     if (connect(cSocket, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
@@ -34,31 +35,45 @@ int main() {
     }
     std::cout << "Server connection established." << std::endl;
 
-    // Build the packet
+    // Connected
+    bool wantsToEnd = false;
+    while(!wantsToEnd){
+        // initialize menu
+        Menu mainMenu;
 
+        // run the main menu
+        std::string packetToSend[1024] = mainMenu.run();
 
-    // Send the packet
-    if (send(cSocket, packetToSend, sizeof(packetToSend), 0) < 0) {
-        std::cerr << "ERROR: Failed to send packet." << std::endl;
-    }
-    else {
-        std::cout << "Packet sent successfully." << std::endl;
+        // Send the packet
+        if (send(cSocket, packetToSend, sizeof(packetToSend), 0) < 0) {
+            std::cerr << "ERROR: Failed to send packet." << std::endl;
+        }
+        else {
+            std::cout << "Packet sent successfully." << std::endl;
+        }
+
+        // Reciece a response
+        char buffer[1024];
+        int bytes = recv(cSocket, buffer, sizeof(buffer) -1, 0);
+        if (bytes > 0) {
+            buffer[bytes] = '\0';
+            std::string result = parser.checkCommands(buffer);
+            std::cout << result;
+        }
+        else if (bytes == 0) {
+            std::cout << "Connection to server terminated." << std::endl;
+        }
+        else {
+            std::cerr << "ERROR: Failed to recieve packet." << std::endl;
+        }
+
+        Receiver msgReceiver;
+
+        std::string msgFromServer = msgReceiver.checkCommands(buffer);
+
     }
 
-    // Reciece a response
-    char buffer[1024];
-    int bytes = recv(cSocket, buffer, sizeof(buffer) -1, 0);
-    if (bytes > 0) {
-        buffer[bytes] = '\0';
-        std::string result = parser.checkCommands(buffer);
-        std::cout << result;
-    }
-    else if (bytes == 0) {
-        std::cout << "Connection to server terminated." << std::endl;
-    }
-    else {
-        std::cerr << "ERROR: Failed to recieve packet." << std::endl;
-    }
+    
 
     close(cSocket);
     return 0;
