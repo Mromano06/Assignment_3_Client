@@ -41,10 +41,10 @@ int main() {
         Menu mainMenu;
 
         // run the main menu
-        std::string packetToSend[4096] = mainMenu.run();
+        std::string packetToSend = mainMenu.run();
 
         // Send the packet
-        if (send(cSocket, packetToSend, sizeof(packetToSend), 0) < 0) {
+        if (send(cSocket, packetToSend.c_str(), packetToSend.size(), 0) < 0) {
             std::cerr << "ERROR: Failed to send packet." << std::endl;
         }
         else {
