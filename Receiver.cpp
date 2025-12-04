@@ -27,31 +27,19 @@ void Receiver::setTermFlag(int teminationFlag) {
 }
 
 std::string Receiver::checkCommands(const char* buffer) {
-    std::string response(buffer); // convert to a string
+    std::string response(buffer);
 
     std::vector<std::string> parts;
     size_t start = 0, end;
-    const std::string delim = "}+{";
-    const std::string messageDelim = "}#{";
+    const std::string delim = "}+{";   // command delimiter
+    const std::string msgDelim = "}#{"; // message body delimiter
 
-      // First check if we have a message delimiter
-    size_t msgPos = response.find(messageDelim);
-    std::string commandSection = response;
-    std::string messageSection;
-
-       if (msgPos != std::string::npos) {
-        // Split into command part and message part
-        commandSection = response.substr(0, msgPos);
-        messageSection = response.substr(msgPos + messageDelim.length());
-    }
-
-    // Parse the command section using "}+{"
-    start = 0;
-    while ((end = commandSection.find(delim, start)) != std::string::npos) {
-        parts.push_back(commandSection.substr(start, end - start));
+    // Split commands by "}+{"
+    while ((end = response.find(delim, start)) != std::string::npos) {
+        parts.push_back(response.substr(start, end - start));
         start = end + delim.length();
     }
-    parts.push_back(commandSection.substr(start));
+    parts.push_back(response.substr(start));
 
     std::ostringstream out;
 
@@ -63,14 +51,22 @@ std::string Receiver::checkCommands(const char* buffer) {
         }
         else if (part == "POST_ERROR") {
             out << "SERVER ERROR: Command failed.";
-            return out.str(); // Return error message asap
+            return out.str();
         }
-        else if (part == "GET_BOARD_ERROR") {
-            out << "MESSAGE ERROR: Message send failed.";
-            return out.str(); // Return error message asap
-        }
-        else if (part == "MESSAGES") {
-            // handled separately below
+        else if (part.rfind("MESSAGES", 0) == 0) {
+            // Everything after "MESSAGES" may contain message bodies
+            std::string messages = part.substr(std::string("MESSAGES").length());
+            if (!messages.empty()) {
+                // Split by "}#{"
+                size_t mStart = 0, mEnd;
+                while ((mEnd = messages.find(msgDelim, mStart)) != std::string::npos) {
+                    std::string msg = trimBraces(messages.substr(mStart, mEnd - mStart));
+                    if (!msg.empty()) out << "\n- " << msg;
+                    mStart = mEnd + msgDelim.length();
+                }
+                std::string lastMsg = trimBraces(messages.substr(mStart));
+                if (!lastMsg.empty()) out << "\n- " << lastMsg;
+            }
         }
         else if (part == "DISCONNECT") {
             terminationFlag = 1;
@@ -80,13 +76,5 @@ std::string Receiver::checkCommands(const char* buffer) {
         }
     }
 
-    // If there was a message section after "}#{", append it
-    if (!messageSection.empty()) {
-        std::string trimmedMsg = trimBraces(messageSection);
-        if (!trimmedMsg.empty()) {
-            out << "\nMessage:\n" << trimmedMsg;
-        }
-    }
-
-    return out.str(); // Return the success/other messages
+    return out.str();
 }

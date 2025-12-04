@@ -10,9 +10,8 @@
 // Matthew Romano - Brodie Arkell - Assignment 3 - Network Theory
 // Client side apllication implementaion
 
-int main() {
-    Receiver parser;
-
+int main() {        
+    Receiver msgReceiver;
 
     // Create the socket
     int cSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -57,7 +56,7 @@ int main() {
         int bytes = recv(cSocket, buffer, sizeof(buffer) -1, 0);
         if (bytes > 0) {
             buffer[bytes] = '\0';
-            std::string result = parser.checkCommands(buffer);
+            std::string result = msgReceiver.checkCommands(buffer);
             std::cout << result;
         }
         else if (bytes == 0) {
@@ -67,13 +66,14 @@ int main() {
             std::cerr << "ERROR: Failed to recieve packet." << std::endl;
         }
 
-        Receiver msgReceiver;
-
         std::string msgFromServer = msgReceiver.checkCommands(buffer);
+        
+        if (msgReceiver.terminationFlag == 1) {
+        close(cSocket);
+        return 0;
+        }
 
     }
-
-    
 
     close(cSocket);
     return 0;
