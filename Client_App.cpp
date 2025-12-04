@@ -18,7 +18,7 @@ int main() {
     if (cSocket < 0) {
         std::cerr << "ERROR: Failed to create socket" << std::endl;
         return -1;
-    }
+    } 
 
     // Define the servers address
     struct sockaddr_in server_addr;
@@ -41,7 +41,7 @@ int main() {
         Menu mainMenu;
 
         // run the main menu
-        std::string packetToSend[1024] = mainMenu.run();
+        std::string packetToSend[4096] = mainMenu.run();
 
         // Send the packet
         if (send(cSocket, packetToSend, sizeof(packetToSend), 0) < 0) {
@@ -67,7 +67,7 @@ int main() {
         }
 
         std::string msgFromServer = msgReceiver.checkCommands(buffer);
-        
+
         if (msgReceiver.terminationFlag == 1) {
         close(cSocket);
         return 0;
