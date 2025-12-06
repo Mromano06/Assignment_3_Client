@@ -57,23 +57,13 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mattr/repos/Assignment_3_Client
+CMAKE_SOURCE_DIR = /home/broski/FinalNetworksAssignment/Assignment_3_Client
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mattr/repos/Assignment_3_Client/build
+CMAKE_BINARY_DIR = /home/broski/FinalNetworksAssignment/Assignment_3_Client/build
 
 #=============================================================================
 # Targets provided globally by CMake.
-
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-.PHONY : test/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -95,56 +85,11 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"gmock\" \"gtest\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-.PHONY : list_install_components/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mattr/repos/Assignment_3_Client/build/CMakeFiles /home/mattr/repos/Assignment_3_Client/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/broski/FinalNetworksAssignment/Assignment_3_Client/build/CMakeFiles /home/broski/FinalNetworksAssignment/Assignment_3_Client/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mattr/repos/Assignment_3_Client/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/broski/FinalNetworksAssignment/Assignment_3_Client/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -172,76 +117,113 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named ReceiverTests
+# Target rules for targets named client_cli
 
 # Build rule for target.
-ReceiverTests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ReceiverTests
-.PHONY : ReceiverTests
+client_cli: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client_cli
+.PHONY : client_cli
 
 # fast build rule for target.
-ReceiverTests/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReceiverTests.dir/build.make CMakeFiles/ReceiverTests.dir/build
-.PHONY : ReceiverTests/fast
+client_cli/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_cli.dir/build.make CMakeFiles/client_cli.dir/build
+.PHONY : client_cli/fast
 
 #=============================================================================
-# Target rules for targets named gmock
+# Target rules for targets named client_gui
 
 # Build rule for target.
-gmock: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gmock
-.PHONY : gmock
+client_gui: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client_gui
+.PHONY : client_gui
 
 # fast build rule for target.
-gmock/fast:
-	$(MAKE) $(MAKESILENT) -f googletest/googlemock/CMakeFiles/gmock.dir/build.make googletest/googlemock/CMakeFiles/gmock.dir/build
-.PHONY : gmock/fast
+client_gui/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_gui.dir/build.make CMakeFiles/client_gui.dir/build
+.PHONY : client_gui/fast
 
-#=============================================================================
-# Target rules for targets named gmock_main
+ClientGUI.o: ClientGUI.cpp.o
+.PHONY : ClientGUI.o
 
-# Build rule for target.
-gmock_main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gmock_main
-.PHONY : gmock_main
+# target to build an object file
+ClientGUI.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_gui.dir/build.make CMakeFiles/client_gui.dir/ClientGUI.cpp.o
+.PHONY : ClientGUI.cpp.o
 
-# fast build rule for target.
-gmock_main/fast:
-	$(MAKE) $(MAKESILENT) -f googletest/googlemock/CMakeFiles/gmock_main.dir/build.make googletest/googlemock/CMakeFiles/gmock_main.dir/build
-.PHONY : gmock_main/fast
+ClientGUI.i: ClientGUI.cpp.i
+.PHONY : ClientGUI.i
 
-#=============================================================================
-# Target rules for targets named gtest
+# target to preprocess a source file
+ClientGUI.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_gui.dir/build.make CMakeFiles/client_gui.dir/ClientGUI.cpp.i
+.PHONY : ClientGUI.cpp.i
 
-# Build rule for target.
-gtest: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest
-.PHONY : gtest
+ClientGUI.s: ClientGUI.cpp.s
+.PHONY : ClientGUI.s
 
-# fast build rule for target.
-gtest/fast:
-	$(MAKE) $(MAKESILENT) -f googletest/googletest/CMakeFiles/gtest.dir/build.make googletest/googletest/CMakeFiles/gtest.dir/build
-.PHONY : gtest/fast
+# target to generate assembly for a file
+ClientGUI.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_gui.dir/build.make CMakeFiles/client_gui.dir/ClientGUI.cpp.s
+.PHONY : ClientGUI.cpp.s
 
-#=============================================================================
-# Target rules for targets named gtest_main
+Client_App.o: Client_App.cpp.o
+.PHONY : Client_App.o
 
-# Build rule for target.
-gtest_main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest_main
-.PHONY : gtest_main
+# target to build an object file
+Client_App.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_cli.dir/build.make CMakeFiles/client_cli.dir/Client_App.cpp.o
+.PHONY : Client_App.cpp.o
 
-# fast build rule for target.
-gtest_main/fast:
-	$(MAKE) $(MAKESILENT) -f googletest/googletest/CMakeFiles/gtest_main.dir/build.make googletest/googletest/CMakeFiles/gtest_main.dir/build
-.PHONY : gtest_main/fast
+Client_App.i: Client_App.cpp.i
+.PHONY : Client_App.i
+
+# target to preprocess a source file
+Client_App.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_cli.dir/build.make CMakeFiles/client_cli.dir/Client_App.cpp.i
+.PHONY : Client_App.cpp.i
+
+Client_App.s: Client_App.cpp.s
+.PHONY : Client_App.s
+
+# target to generate assembly for a file
+Client_App.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_cli.dir/build.make CMakeFiles/client_cli.dir/Client_App.cpp.s
+.PHONY : Client_App.cpp.s
+
+Menu.o: Menu.cpp.o
+.PHONY : Menu.o
+
+# target to build an object file
+Menu.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_cli.dir/build.make CMakeFiles/client_cli.dir/Menu.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_gui.dir/build.make CMakeFiles/client_gui.dir/Menu.cpp.o
+.PHONY : Menu.cpp.o
+
+Menu.i: Menu.cpp.i
+.PHONY : Menu.i
+
+# target to preprocess a source file
+Menu.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_cli.dir/build.make CMakeFiles/client_cli.dir/Menu.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_gui.dir/build.make CMakeFiles/client_gui.dir/Menu.cpp.i
+.PHONY : Menu.cpp.i
+
+Menu.s: Menu.cpp.s
+.PHONY : Menu.s
+
+# target to generate assembly for a file
+Menu.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_cli.dir/build.make CMakeFiles/client_cli.dir/Menu.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_gui.dir/build.make CMakeFiles/client_gui.dir/Menu.cpp.s
+.PHONY : Menu.cpp.s
 
 Receiver.o: Receiver.cpp.o
 .PHONY : Receiver.o
 
 # target to build an object file
 Receiver.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReceiverTests.dir/build.make CMakeFiles/ReceiverTests.dir/Receiver.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_cli.dir/build.make CMakeFiles/client_cli.dir/Receiver.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_gui.dir/build.make CMakeFiles/client_gui.dir/Receiver.cpp.o
 .PHONY : Receiver.cpp.o
 
 Receiver.i: Receiver.cpp.i
@@ -249,7 +231,8 @@ Receiver.i: Receiver.cpp.i
 
 # target to preprocess a source file
 Receiver.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReceiverTests.dir/build.make CMakeFiles/ReceiverTests.dir/Receiver.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_cli.dir/build.make CMakeFiles/client_cli.dir/Receiver.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_gui.dir/build.make CMakeFiles/client_gui.dir/Receiver.cpp.i
 .PHONY : Receiver.cpp.i
 
 Receiver.s: Receiver.cpp.s
@@ -257,32 +240,9 @@ Receiver.s: Receiver.cpp.s
 
 # target to generate assembly for a file
 Receiver.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReceiverTests.dir/build.make CMakeFiles/ReceiverTests.dir/Receiver.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_cli.dir/build.make CMakeFiles/client_cli.dir/Receiver.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_gui.dir/build.make CMakeFiles/client_gui.dir/Receiver.cpp.s
 .PHONY : Receiver.cpp.s
-
-Tests/ReceiverTests.o: Tests/ReceiverTests.cpp.o
-.PHONY : Tests/ReceiverTests.o
-
-# target to build an object file
-Tests/ReceiverTests.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReceiverTests.dir/build.make CMakeFiles/ReceiverTests.dir/Tests/ReceiverTests.cpp.o
-.PHONY : Tests/ReceiverTests.cpp.o
-
-Tests/ReceiverTests.i: Tests/ReceiverTests.cpp.i
-.PHONY : Tests/ReceiverTests.i
-
-# target to preprocess a source file
-Tests/ReceiverTests.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReceiverTests.dir/build.make CMakeFiles/ReceiverTests.dir/Tests/ReceiverTests.cpp.i
-.PHONY : Tests/ReceiverTests.cpp.i
-
-Tests/ReceiverTests.s: Tests/ReceiverTests.cpp.s
-.PHONY : Tests/ReceiverTests.s
-
-# target to generate assembly for a file
-Tests/ReceiverTests.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReceiverTests.dir/build.make CMakeFiles/ReceiverTests.dir/Tests/ReceiverTests.cpp.s
-.PHONY : Tests/ReceiverTests.cpp.s
 
 # Help Target
 help:
@@ -291,23 +251,21 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... install"
-	@echo "... install/local"
-	@echo "... install/strip"
-	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... test"
-	@echo "... ReceiverTests"
-	@echo "... gmock"
-	@echo "... gmock_main"
-	@echo "... gtest"
-	@echo "... gtest_main"
+	@echo "... client_cli"
+	@echo "... client_gui"
+	@echo "... ClientGUI.o"
+	@echo "... ClientGUI.i"
+	@echo "... ClientGUI.s"
+	@echo "... Client_App.o"
+	@echo "... Client_App.i"
+	@echo "... Client_App.s"
+	@echo "... Menu.o"
+	@echo "... Menu.i"
+	@echo "... Menu.s"
 	@echo "... Receiver.o"
 	@echo "... Receiver.i"
 	@echo "... Receiver.s"
-	@echo "... Tests/ReceiverTests.o"
-	@echo "... Tests/ReceiverTests.i"
-	@echo "... Tests/ReceiverTests.s"
 .PHONY : help
 
 

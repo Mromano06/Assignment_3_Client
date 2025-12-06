@@ -1,21 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
-project(MyProjectTests)
+project(ClientApp)
 
-enable_testing()
+# Find FLTK
+find_package(FLTK REQUIRED)
 
-add_subdirectory(googletest)
+# CLI version (optional, keeps your old console app)
+add_executable(client_cli Client_App.cpp Receiver.cpp Menu.cpp)
+target_link_libraries(client_cli fltk)
 
-add_executable(ReceiverTests
-    Tests/ReceiverTests.cpp
-    Receiver.cpp
-)
-
-target_include_directories(ReceiverTests PRIVATE .)
-
-target_link_libraries(ReceiverTests
-    gtest
-    gtest_main
-    pthread
-)
-
-add_test(NAME ReceiverTests COMMAND ReceiverTests)
+# GUI version
+add_executable(client_gui ClientGUI.cpp Receiver.cpp Menu.cpp)
+target_link_libraries(client_gui fltk)

@@ -26,6 +26,27 @@ void Receiver::setTermFlag(int teminationFlag) {
     this->terminationFlag = terminationFlag;
 }
 
+
+void Receiver::appendData(const char* data){
+    recvBuffer += data;
+}
+
+std::string Receiver::processBuffer(){
+    std::string displayText;
+    size_t pos;
+    const std::string terminator = "}}&{{"; // msg terminator
+
+    while ((pos = recvBuffer.find(terminator)) != std::string::npos){
+        std::string fullMsg = recvBuffer.substr(0, pos); // full message
+        std::string result = checkCommands(fullMsg.c_str());
+        if (!result.empty()){
+            displayText += result + "\n";
+        }
+        recvBuffer.erase(0, pos + terminator.length()); // remove message
+    }
+    return displayText;
+}
+
 std::string Receiver::checkCommands(const char* buffer) {
     std::string response(buffer);
 
@@ -53,9 +74,9 @@ std::string Receiver::checkCommands(const char* buffer) {
             out << "SERVER ERROR: Command failed.";
             return out.str();
         }
-        else if (part.rfind("MESSAGES", 0) == 0) {
+       else if (part.rfind("GET_BOARD", 0) == 0) {
             // Everything after "MESSAGES" may contain message bodies
-            std::string messages = part.substr(std::string("MESSAGES").length());
+            std::string messages = part.substr(std::string("GET_BOARD").length());
             if (!messages.empty()) {
                 // Split by "}#{"
                 size_t mStart = 0, mEnd;
