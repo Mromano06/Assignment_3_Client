@@ -7,7 +7,7 @@ std::string Menu::run(){
     bool firstPost = true;
     std::string accumulatedMessage; // holds accumilated messages/posts
 
-    while (running){
+    while (running) {
         //Print Menu
         std::cout << "--------------- Main Menu ---------------" << std::endl;
         std::cout << "--------------- a) Create Post ---------------" << std::endl;

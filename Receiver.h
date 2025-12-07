@@ -8,8 +8,6 @@ class Receiver {
     public:   
     std::string recvBuffer;
         int terminationFlag = 0;        
-        int getTermFlag();
-        void setTermFlag(int terminationFlag);
         void appendData(const char* data);
         std::string processBuffer();
         std::string checkCommands(const char* buffer);     

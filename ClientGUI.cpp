@@ -113,6 +113,9 @@ void receiveTimeout(void*) {
             else if (result.find("SERVER ERROR") != std::string::npos){
                 appendClient("Post Failed.");
             }
+            else if (result.find("BOARD ERROR") != std::string::npos){
+                appendClient("Board failed.");
+            }
         }
     }
 
