@@ -1,6 +1,6 @@
-### Assignment 3 Network Theory
+# Assignment 3 Network Theory
 
-# Disclaimer
+### Disclaimer
 This project was designed to test our skills with netowrks and VMs. Therefore our enivironments used to create this projet were within a VM.
 
 ## Description
