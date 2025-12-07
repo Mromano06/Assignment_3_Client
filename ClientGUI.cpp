@@ -17,13 +17,17 @@
 
 // Globals
 int clientSocket;
-Receiver msgReceiver;
+Receiver msgReceiver; // Server Message Receiver
+// input fields
 Fl_Input* authorInput;
 Fl_Input* titleInput;
 Fl_Multiline_Input* messageInput;
+// output fields
 Fl_Text_Display* serverBox;
 Fl_Text_Buffer* serverBuffer;
 Fl_Multiline_Output* clientBox;
+// accumilated posts
+std::string savedPosts;
 
 
 // Append text to output box
@@ -39,19 +43,44 @@ void appendServer(const std::string& text){
 }
 
 
-
 void appendClient(const std::string& text){
-    std::string old = clientBox->value();
-    old += text + "\n";
-    clientBox->value(old.c_str());
+    clientBox->value(""); // clear previous message
+    clientBox->value(text.c_str()); // add new message
 } 
 
 // Button callbacks
 void sendPostCallBack(Fl_Widget*, void*){
+
+    // check if saved posts are empty
+    if (savedPosts.empty()){
+        appendClient("There are no saved posts to send");
+        return;
+    }
+
+    // add post ending symbol
+    savedPosts.append("}}&{{");
+
+    send(clientSocket, savedPosts.c_str(), savedPosts.size(), 0);
+    appendClient("Post sent. "); // show sent msg
+
+    // clear text field values
+    authorInput->value(""); 
+    titleInput->value("");
+    messageInput->value("");    
+
+    // clear saved posts after sending
+    savedPosts.clear();
+
+}
+
+
+void savePostCallBack(Fl_Widget*, void*){
+    // get text fields from post
     std::string author = authorInput->value();
     std::string title = titleInput->value();
     std::string msg = messageInput->value();
-
+    
+    // check for empty message
     if (author.empty()) author = "";
     if (title.empty()) title = "";
     if (msg.empty()) {
@@ -59,18 +88,23 @@ void sendPostCallBack(Fl_Widget*, void*){
         return;
     }
 
-    // build post protocol
-    std::string packet = "POST}+{" + author + "}+{" + title + "}+{" + msg + "}}&{{";
-    send(clientSocket, packet.c_str(), packet.size(), 0);
-    appendClient("Post sent. " + msg); // show sent msg
+
+    if (savedPosts.empty()){
+        savedPosts.append("POST}+{"); // if first post add command
+    } else{
+        savedPosts.append("}#{"); // else add second post delimiter
+    }
+
+    // build protocol
+    std::string post = author + "}+{" + title + "}+{" + msg;
+    // save the post
+    savedPosts.append(post);
 
     // clear text field values
     authorInput->value(""); 
     titleInput->value("");
-    messageInput->value("");    
-
+    messageInput->value("");  
 }
-
 
 
 void getBoardCallBack(Fl_Widget*, void*){
@@ -155,9 +189,10 @@ int main(void){
     int y = 20;
     int spacing = 40;
 
-    authorInput = new Fl_Input(x, y, fieldWidth, fieldHeight, "Author:");
+    authorInput = new Fl_Input(x, y, fieldWidth, fieldHeight, "Author (Blank for Anonymous):");
     y += spacing; // add a space after each input field
 
+    
     titleInput = new Fl_Input(x, y, fieldWidth, fieldHeight, "Title:");
     y += spacing;
     
@@ -168,16 +203,19 @@ int main(void){
     int btnWidth = 120;
     int btnHeight = 40;
     int btnSpacing = 20;
-    int totalBtnWidth = 3 * btnWidth + 2 * btnSpacing;
-    int btnX = (winWidth = totalBtnWidth) / 2; // Center the buttons    
+    int totalBtnWidth = 4 * btnWidth + 3 * btnSpacing;
+    int btnX = (winWidth - totalBtnWidth) / 2; // Center the buttons   
     
-    Fl_Button* sendButton = new Fl_Button(btnX, y, btnWidth, btnHeight, "Send Post");
+    Fl_Button* saveButton = new Fl_Button(btnX, y, btnWidth, btnHeight, "Save Post");
+    saveButton->callback(savePostCallBack);
+    
+    Fl_Button* sendButton = new Fl_Button(btnX + (btnWidth + btnSpacing), y, btnWidth, btnHeight, "Send Post");
     sendButton->callback(sendPostCallBack);
 
-    Fl_Button* getBoardButton = new Fl_Button(btnX + btnWidth + btnSpacing, y, btnWidth, btnHeight, "Get Board");
+    Fl_Button* getBoardButton = new Fl_Button(btnX + 2*(btnWidth + btnSpacing), y, btnWidth, btnHeight, "Get Board");
     getBoardButton->callback(getBoardCallBack);
 
-    Fl_Button* quitButton = new Fl_Button(btnX + 2*(btnWidth + btnSpacing),y, btnWidth, btnHeight, "Quit");
+    Fl_Button* quitButton = new Fl_Button(btnX + 3*(btnWidth + btnSpacing),y, btnWidth, btnHeight, "Quit");
     quitButton->callback(quitCallback);
 
     y += btnHeight + 20;
@@ -203,6 +241,7 @@ int main(void){
     window->resizable(serverBox);
     window->end();
     window->show();
+
 
     // Start receiving
     Fl::repeat_timeout(0.1, receiveTimeout, nullptr);
