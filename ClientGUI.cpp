@@ -147,6 +147,10 @@ void receiveTimeout(void*) {
             else if (result.find("SERVER ERROR") != std::string::npos){
                 appendClient("Post Failed.");
             }
+            else if (result.find("POST ERROR") != std::string::npos) {
+                appendClient("Post fetch failed.");
+            }
+            
         }
     }
 

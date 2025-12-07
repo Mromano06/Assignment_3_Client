@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/client_gui.dir/ClientGUI.cpp.o CMakeFiles/client_gui.dir/Receiver.cpp.o CMakeFiles/client_gui.dir/Menu.cpp.o -o client_gui  /usr/lib/x86_64-linux-gnu/libfltk.so 

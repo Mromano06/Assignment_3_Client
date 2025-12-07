@@ -90,6 +90,9 @@ std::string Receiver::checkCommands(const char* buffer) {
     if (response == "POST_ERROR") {
         return "SERVER ERROR: Command failed.";
     }
+    if (response == "GET_BOARD_ERROR") {
+        return "POST ERROR: Command failed.";
+    }
     if (response == "DISCONNECT") {
         terminationFlag = 1;
         return "Disconnected";
