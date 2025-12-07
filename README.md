@@ -4,6 +4,7 @@
 This project was designed to test our skills with netowrks and VMs. Therefore our enivironments used to create this projet were within a VM.
 
 ## Description
+We were tasked with building a simple message board application. One part of the group was focused on the server and the other on the client.
 This is the client side gui/application. This app handles sending and recieveing messages/posts from a emssage board. The board then stores these messages and allows us to view them.
 
 ## Setup
